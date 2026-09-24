@@ -62,6 +62,16 @@ cp .env.example .env      # VITE_API_URL=http://localhost:5000
 npm run dev               # http://localhost:5173
 ```
 
+### Or run everything with Docker
+```bash
+docker compose up --build
+```
+This starts three containers: **mongo** (MongoDB 7), **backend** (Node, http://localhost:5000) and **frontend** (the React build served by nginx, http://localhost:5173).
+- `backend/.env` is loaded if it exists, e.g. for `TM_API_KEY`.
+- The bundled Mongo container is used by default. To use Atlas instead, run `MONGO_URI="mongodb+srv://..." docker compose up --build`.
+
+**CI:** `.github/workflows/gitleaks.yml` scans the full git history for leaked secrets on every push and pull request.
+
 ### 4. Try the Friend Invite flow
 1. Open <http://localhost:5173>, click **Sign in** and create a profile.
 2. Click **Interested** on an event, then **Share link**. The link is copied to your clipboard.
