@@ -50,7 +50,9 @@ async function fetchEvents(query = {}) {
         startDateTime: `${from}T00:00:00Z`,
         endDateTime: `${to}T23:59:59Z`,
       });
-      return category ? events.filter((e) => matchesText(e.category, category)) : events;
+      // Ticketmaster can return long-running listings with old start dates; keep only the requested range.
+      const inRange = events.filter((e) => e.date >= from && e.date <= to);
+      return category ? inRange.filter((e) => matchesText(e.category, category)) : inRange;
     } catch (err) {
       console.warn(`Ticketmaster request failed, using mock events: ${err.message}`);
     }
