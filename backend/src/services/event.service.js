@@ -90,7 +90,8 @@ async function getEventById(id) {
     return await ticketmaster.getEvent(id);
   } catch (err) {
     if (err.response?.status === 404) throw ApiError.notFound('Event not found');
-    throw err;
+    console.error(`Ticketmaster lookup failed for ${id}: ${err.message}`);
+    throw new ApiError(502, 'Event provider is unavailable, please try again');
   }
 }
 

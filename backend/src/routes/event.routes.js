@@ -1,9 +1,13 @@
 const { Router } = require('express');
 const { query } = require('express-validator');
 const validate = require('../middleware/validate');
+const currentUser = require('../middleware/currentUser');
 const controller = require('../controllers/event.controller');
 
 const router = Router();
+
+// Anonymous browsing is allowed; a known user gets isInterested flags.
+router.use(currentUser({ required: false }));
 
 const monthRule = query('month').matches(/^\d{4}-(0[1-9]|1[0-2])$/).withMessage('month must be YYYY-MM');
 const dateRule = (field) => query(field).optional().isISO8601().withMessage(`${field} must be YYYY-MM-DD`);
