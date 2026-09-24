@@ -7,6 +7,7 @@ import { UserProvider, useUser } from './context/UserContext'
 import { SocketProvider } from './context/SocketContext'
 
 // Route-level code splitting: each page is loaded only when visited.
+const LandingPage = lazy(() => import('./pages/LandingPage'))
 const EventsPage = lazy(() => import('./pages/EventsPage'))
 const DashboardPage = lazy(() => import('./pages/DashboardPage'))
 
@@ -26,9 +27,10 @@ export default function App() {
             <main>
               <Suspense fallback={<div className="page"><div className="card skeleton tall" /></div>}>
                 <Routes>
-                  <Route path="/" element={<EventsPage />} />
+                  <Route path="/" element={<LandingPage />} />
+                  <Route path="/events" element={<EventsPage />} />
                   <Route path="/dashboard" element={<DashboardPage />} />
-                  <Route path="*" element={<EventsPage />} />
+                  <Route path="*" element={<LandingPage />} />
                 </Routes>
               </Suspense>
             </main>

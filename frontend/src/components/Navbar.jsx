@@ -10,7 +10,7 @@ export default function Navbar() {
     <nav className="navbar">
       <NavLink to="/" className="brand">⚡ EventPulse</NavLink>
       <div className="nav-links">
-        <NavLink to="/" end>Discover</NavLink>
+        <NavLink to="/events">Discover</NavLink>
         <NavLink to="/dashboard">My RSVPs</NavLink>
       </div>
       <div className="nav-right">

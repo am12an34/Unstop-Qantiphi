@@ -159,7 +159,7 @@ export default function DashboardPage() {
       {data && data.upcoming.length === 0 && (
         <div className="card empty">
           <p>You haven't RSVPed to any upcoming events yet.</p>
-          <Link className="btn btn-primary" to="/">Discover events</Link>
+          <Link className="btn btn-primary" to="/events">Discover events</Link>
         </div>
       )}
       <div className="rsvp-list">
