@@ -39,13 +39,13 @@ export default function ProfileModal() {
 
   return (
     <div className="modal-backdrop" onClick={closeProfile}>
-      <form className="card modal" onClick={(e) => e.stopPropagation()} onSubmit={onSubmit}>
+      <form className="card modal" onClick={(e) => e.stopPropagation()} onSubmit={onSubmit} autoComplete="off">
         <h2>{user ? 'Your profile' : 'Join EventPulse'}</h2>
         <p className="muted small">{user ? 'Update your details and reminder preference.' : 'Use the same email to get back to your RSVPs.'}</p>
 
-        <label>Name<input name="name" value={form.name} onChange={onChange} required minLength={2} /></label>
-        <label>Email<input name="email" type="email" value={form.email} onChange={onChange} required disabled={Boolean(user)} /></label>
-        <label>City<input name="city" value={form.city} onChange={onChange} placeholder="e.g. Agartala" /></label>
+        <label>Name<input name="name" autoComplete="off" value={form.name} onChange={onChange} required minLength={2} /></label>
+        <label>Email<input name="email" type="email" autoComplete="off" value={form.email} onChange={onChange} required disabled={Boolean(user)} /></label>
+        <label>City<input name="city" autoComplete="off" value={form.city} onChange={onChange} placeholder="e.g. Agartala" /></label>
         {user && (
           <label>
             Default reminder
