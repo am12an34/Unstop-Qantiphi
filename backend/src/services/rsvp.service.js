@@ -1,5 +1,6 @@
 const Rsvp = require('../models/Rsvp');
 const eventService = require('./event.service');
+const shareService = require('./share.service');
 const ApiError = require('../utils/ApiError');
 
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -55,7 +56,16 @@ async function create(user, { eventId, ref }) {
 
 async function listForUser(user, { includePast = false } = {}) {
   const rsvps = await Rsvp.find({ user: user._id }).sort({ 'event.date': 1, 'event.time': 1 });
-  const items = rsvps.map(present);
+  const eventIds = rsvps.map((r) => r.eventId);
+  const [links, friends] = await Promise.all([
+    shareService.linksForUser(user._id),
+    shareService.friendsAttendingCounts(eventIds),
+  ]);
+  const items = rsvps.map((r) => ({
+    ...present(r),
+    share: links[r.eventId] || null,
+    friendsAttending: friends[r.eventId] || 0,
+  }));
   const upcoming = items.filter((r) => !r.isPast);
   const past = items.filter((r) => r.isPast);
   return {

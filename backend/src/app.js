@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const env = require('./config/env');
 const apiRoutes = require('./routes');
+const shareController = require('./controllers/share.controller');
 const { notFound, errorHandler } = require('./middleware/errorHandler');
 
 const app = express();
@@ -15,6 +16,8 @@ app.use(cookieParser());
 app.use(morgan('dev'));
 
 app.use('/api', apiRoutes);
+// Short public invite links, e.g. http://localhost:5000/s/abc123
+app.get('/s/:token', shareController.follow);
 
 app.use(notFound);
 app.use(errorHandler);

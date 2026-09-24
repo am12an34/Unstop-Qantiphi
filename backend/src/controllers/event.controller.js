@@ -1,17 +1,20 @@
 const eventService = require('../services/event.service');
 const rsvpService = require('../services/rsvp.service');
+const shareService = require('../services/share.service');
 
 // Adds per-user and social fields to raw events.
 async function enrich(events, user) {
   const ids = events.map((e) => e.id);
-  const [interested, attendees] = await Promise.all([
+  const [interested, attendees, friends] = await Promise.all([
     rsvpService.interestedEventIds(user?._id, ids),
     rsvpService.attendeeCounts(ids),
+    shareService.friendsAttendingCounts(ids),
   ]);
   return events.map((e) => ({
     ...e,
     isInterested: interested.has(e.id),
     attendeeCount: attendees[e.id] || 0,
+    friendsAttending: friends[e.id] || 0,
   }));
 }
 
